@@ -1,2 +1,9 @@
 test the rebase and pull
+<<<<<<< Updated upstream
 conflict
+=======
+
+
+
+testing again
+>>>>>>> Stashed changes

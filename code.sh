@@ -3,7 +3,7 @@
 export outcome=1
 
 # To the dirctory structure
-git ls-files | xargs -n 1 dirname | uniq >/tmp/dirs.txt
+git ls-files | xargs -n 1 dirname | uniq >/tmp/dirs-new.txt
 ##out put
 #========
 #.
@@ -13,7 +13,7 @@ git ls-files | xargs -n 1 dirname | uniq >/tmp/dirs.txt
 
 #To Split dir structure fro / to /n
 
-sed -i  's/\//\n/g' /tmp/dirs.txt
+sed -i  's/\//\n/g' /tmp/dirs-new.txt
 ##out put
 #========
 #.
@@ -22,18 +22,18 @@ sed -i  's/\//\n/g' /tmp/dirs.txt
 #one-one
 #.
 
-paste -d" " -s /tmp/dirs.txt > /tmp/dir_before_commit_final
+paste -d" " -s /tmp/dirs-new.txt > /tmp/dir_before_commit_final_new
 ##out put
 #========
 #. dir1 one one-one .
 
-sed -i  's/\.//g' /tmp/dir_before_commit_final
+sed -i  's/\.//g' /tmp/dir_before_commit_final_new
 ##out put
 #========
 #dir1 one one-one
-sed -i  's/gitignore//g' /tmp/dir_before_commit_final
+sed -i  's/gitignore//g' /tmp/dir_before_commit_final_new
 
-sed -i  's/ /\n/g' /tmp/dir_before_commit_final | sort|uniq
+sed -i  's/ /\n/g' /tmp/dir_before_commit_final_new | sort|uniq
 
 ##out put
 #========
@@ -43,7 +43,7 @@ sed -i  's/ /\n/g' /tmp/dir_before_commit_final | sort|uniq
 #one-one
 #
 
-sed -i  '/^$/d' /tmp/dir_before_commit_final
+sed -i  '/^$/d' /tmp/dir_before_commit_final_new
 
 ##out put
 #========
@@ -52,14 +52,14 @@ sed -i  '/^$/d' /tmp/dir_before_commit_final
 #one-one
 
 
-cat /tmp/dir_before_commit_final | sort |uniq -c | awk -F " " '{print $2}' > /tmp/dir_before_commit_final_1
-export DIR="$(</tmp/dir_before_commit_final_1)"
+cat /tmp/dir_before_commit_final_new | sort |uniq -c | awk -F " " '{print $2}' > /tmp/dir_before_commit_final_new_1
+export DIR="$(</tmp/dir_before_commit_final_new_1)"
 echo "Rohit dir list is **************************** /n" $DIR
-#rm -rf /tmp/dir_before_commit_final
-#rm -rf /tmp/dirs.txt
+#rm -rf /tmp/dir_before_commit_final_new
+#rm -rf /tmp/dirs-new.txt
 git add --all
 git commit -m "updated file"
-find . -type d  -path .git  -prune -o -type d -print | grep -v .git > /tmp/dir_after_commit
+find . -type d  -path .git  -prune -o -type d -print | grep -v .git > /tmp/dir_after_commit_new
 ##out put
 #========
 #.
@@ -73,7 +73,7 @@ find . -type d  -path .git  -prune -o -type d -print | grep -v .git > /tmp/dir_a
 #./dir3/three
 #./dir3/three/three-three
 
-sed -i  's/\.//g' /tmp/dir_after_commit
+sed -i  's/\.//g' /tmp/dir_after_commit_new
 ##out put
 #========
 #
@@ -87,8 +87,8 @@ sed -i  's/\.//g' /tmp/dir_after_commit
 #/dir3/three
 #/dir3/three/three-three
 
-sed -i  's/\.//g' /tmp/dir_after_commit
-sed -i  's/\// /g' /tmp/dir_after_commit
+sed -i  's/\.//g' /tmp/dir_after_commit_new
+sed -i  's/\// /g' /tmp/dir_after_commit_new
 ##out put
 #========
 #dir2
@@ -101,12 +101,12 @@ sed -i  's/\// /g' /tmp/dir_after_commit
 #dir3 three
 #dir3 three three-three
 
-paste -d" " -s /tmp/dir_after_commit > /tmp/dir_after_commit_final
+paste -d" " -s /tmp/dir_after_commit_new > /tmp/dir_after_commit_new_final_new
 ##out put
 #========
 #dir2  dir2 two  dir2 two two-two  dir1  dir1 one  dir1 one one-one  dir3  dir3 three  dir3 three three-three
 
-sed -i  's/ /\n/g' /tmp/dir_after_commit_final | sort | uniq
+sed -i  's/ /\n/g' /tmp/dir_after_commit_new_final_new | sort | uniq
 ##out put
 #========
 #dir2
@@ -135,7 +135,7 @@ sed -i  's/ /\n/g' /tmp/dir_after_commit_final | sort | uniq
 #dir3
 #three
 #three-three
-sed -i  '/^$/d' /tmp/dir_after_commit_final | sort | uniq
+sed -i  '/^$/d' /tmp/dir_after_commit_new_final_new | sort | uniq
 ##out put
 #========
 #dir2
@@ -157,7 +157,7 @@ sed -i  '/^$/d' /tmp/dir_after_commit_final | sort | uniq
 #three
 #three-three
 
-cat /tmp/dir_after_commit_final | sort |uniq -c | awk -F " " '{print $2}' > /tmp/dir_after_commit_final_1
+cat /tmp/dir_after_commit_new_final_new | sort |uniq -c | awk -F " " '{print $2}' > /tmp/dir_after_commit_new_final_new_1
 
 ##out put
 #========
@@ -171,11 +171,11 @@ cat /tmp/dir_after_commit_final | sort |uniq -c | awk -F " " '{print $2}' > /tmp
 #two
 #two-two
 
-tr -s '[:blank:]' '[\n*]' </tmp/dir_after_commit_final_1 |while IFS=" " read -r word;
+tr -s '[:blank:]' '[\n*]' </tmp/dir_after_commit_new_final_new_1 |while IFS=" " read -r word;
 do
 echo "shivangi in tr loop word is ********************************************************************************************** "$word
-result=$(grep $word /tmp/dir_before_commit_final_1)
-echo $word "searched in /tmp/dir_before_commit_final_1 , and result is "$result
+result=$(grep $word /tmp/dir_before_commit_final_new_1)
+echo $word "searched in /tmp/dir_before_commit_final_new_1 , and result is "$result
 if [ ${#result} -ge 2 ]; then
 #if [ $(echo "${result}" | wc -l) -eq 1 ]; then
 echo " shivangi result of grep is " $result "that means match found "

@@ -17,7 +17,7 @@ echo "shivangi dir list is **************************** /n" $DIR
 #rm -rf /tmp/dirs.txt
 git add --all
 git commit -m "updated file"
-find . -type d ( -path .git ) -prune -o -type d -print | grep -v .git > /tmp/dir_after_commit
+find . -type d  -path .git  -prune -o -type d -print | grep -v .git > /tmp/dir_after_commit
 sed -i 's/\.//g' /tmp/dir_after_commit
 sed -i 's/\.//g' /tmp/dir_after_commit
 sed -i 's/\.///g' /tmp/dir_after_commit
